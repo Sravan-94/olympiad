@@ -1,0 +1,158 @@
+
+import Hero from "../components/home/Hero";
+import Features from "../components/home/Features";
+import TestimonialCard from "../components/home/TestimonialCard";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import ExamCard from "../components/exams/ExamCard";
+
+const HomePage = () => {
+  // Sample data for featured exams
+  const featuredExams = [
+    {
+      id: "math-olympiad",
+      title: "Mathematics Olympiad",
+      subject: "Mathematics",
+      date: "June 10, 2025",
+      duration: "2 hours",
+      difficulty: "Medium" as const,
+      image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "science-challenge",
+      title: "National Science Challenge",
+      subject: "Science",
+      date: "July 15, 2025",
+      duration: "2.5 hours",
+      difficulty: "Hard" as const,
+      image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "english-proficiency",
+      title: "English Proficiency Test",
+      subject: "English",
+      date: "May 28, 2025",
+      duration: "1.5 hours",
+      difficulty: "Easy" as const,
+      image: "https://images.unsplash.com/photo-1456513080867-f24f76ced9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
+  ];
+
+  // Sample data for testimonials
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Student, Grade 10",
+      content: "EduVerse helped me prepare for my science olympiad. The mock tests were incredibly similar to the actual exam, which gave me the confidence I needed to succeed.",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
+      rating: 5
+    },
+    {
+      name: "Michael Chen",
+      role: "Parent",
+      content: "As a parent, I appreciate the detailed progress reports that help me understand where my child needs additional support. The platform is intuitive and comprehensive.",
+      avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
+      rating: 4
+    },
+    {
+      name: "Emma Wilson",
+      role: "School Coordinator",
+      content: "Managing multiple students through EduVerse has streamlined our exam preparation process. The analytics provide valuable insights for our teaching strategy.",
+      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
+      rating: 5
+    }
+  ];
+
+  return (
+    <div>
+      <Hero />
+      <Features />
+      
+      {/* Featured Exams Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="education-container">
+          <div className="flex justify-between items-center mb-10">
+            <h2 className="text-3xl font-bold text-education-dark">Featured Exams</h2>
+            <Link to="/exams" className="text-education-blue hover:text-blue-700 flex items-center font-medium">
+              View All <ArrowRight size={18} className="ml-1" />
+            </Link>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredExams.map((exam) => (
+              <ExamCard key={exam.id} {...exam} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="py-16 bg-education-blue text-white">
+        <div className="education-container text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Excel in Your Academic Journey?</h2>
+          <p className="text-lg mb-8 max-w-2xl mx-auto">
+            Join thousands of students who have improved their exam scores through our platform.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <Link to="/register" className="bg-white text-education-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-md transition-all shadow-md">
+              Get Started
+            </Link>
+            <Link to="/exams" className="border border-white text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-md transition-all">
+              Explore Exams
+            </Link>
+          </div>
+        </div>
+      </section>
+      
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="education-container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-education-dark mb-4">What Our Users Say</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Hear from students, parents, and schools who have experienced success with EduVerse.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={index} {...testimonial} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Partners Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="education-container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-education-dark mb-4">Our Partners</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We collaborate with leading educational institutions and organizations.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-12 items-center opacity-70">
+            <div className="w-40 h-20 flex items-center justify-center">
+              <div className="text-2xl font-bold text-gray-500">University A</div>
+            </div>
+            <div className="w-40 h-20 flex items-center justify-center">
+              <div className="text-2xl font-bold text-gray-500">EduTrust</div>
+            </div>
+            <div className="w-40 h-20 flex items-center justify-center">
+              <div className="text-2xl font-bold text-gray-500">LearnCorp</div>
+            </div>
+            <div className="w-40 h-20 flex items-center justify-center">
+              <div className="text-2xl font-bold text-gray-500">SchoolNet</div>
+            </div>
+            <div className="w-40 h-20 flex items-center justify-center">
+              <div className="text-2xl font-bold text-gray-500">AcademyX</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default HomePage;
