@@ -23,6 +23,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
+// Define allowed difficulty types to avoid type comparison issues
+type DifficultyType = "Easy" | "Medium" | "Hard";
+
 const ExamDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState("overview");
@@ -36,7 +39,7 @@ const ExamDetailPage = () => {
     date: "June 10, 2025",
     registrationDeadline: "May 15, 2025",
     duration: "2 hours",
-    difficulty: "Medium" as const,
+    difficulty: "Medium" as DifficultyType,
     eligibility: "Open to students in grades 9-12 with a passion for mathematics",
     fee: "$25",
     location: "Online / Remote",
@@ -95,6 +98,13 @@ const ExamDetailPage = () => {
         answer: "If you experience technical difficulties, you can contact our support team immediately. In case of major issues, we may reschedule your exam."
       }
     ]
+  };
+
+  // Helper function to get difficulty badge variant
+  const getDifficultyVariant = (difficulty: DifficultyType) => {
+    if (difficulty === "Easy") return "default";
+    if (difficulty === "Medium") return "secondary";
+    return "destructive";
   };
 
   return (

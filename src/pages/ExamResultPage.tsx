@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { 
   Award, CheckCircle, XCircle, AlertCircle, Clock, 
-  BarChart2, ArrowUpCircle, Download, Share2
+  BarChart2, ArrowUpCircle, Download, Share2, FileText
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
