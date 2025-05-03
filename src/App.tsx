@@ -11,7 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ExamsPage from "./pages/ExamsPage";
 import ExamDetailPage from "./pages/ExamDetailPage";
-import MockTestPage from "./pages/MockTestPage";
+import MockTestPage from "./pages/mock-test/MockTestPage";
 import ExamResultPage from "./pages/ExamResultPage";
 import DashboardPage from "./pages/DashboardPage";
 import ContactPage from "./pages/ContactPage";
