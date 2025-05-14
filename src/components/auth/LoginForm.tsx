@@ -111,6 +111,25 @@ const LoginForm = () => {
             </Link>
           </p>
         </div>
+        
+        {/* Temporary Admin Panel Links */}
+        <div className="mt-4 border-t pt-4">
+          <p className="text-sm font-medium text-gray-700 mb-2">Temporary Admin Access:</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Link to="/admin-dashboard" className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded">
+              Admin Dashboard
+            </Link>
+            <Link to="/student-dashboard" className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded">
+              Student Dashboard
+            </Link>
+            <Link to="/school-dashboard" className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded">
+              School Dashboard
+            </Link>
+            <Link to="/sales-dashboard" className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-2 rounded">
+              Sales Dashboard
+            </Link>
+          </div>
+        </div>
       </form>
     </div>
   );

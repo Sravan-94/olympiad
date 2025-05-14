@@ -4,10 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./components/auth/AuthContext";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/RegisterPage";
 import ExamsPage from "./pages/ExamsPage";
 import ExamDetailPage from "./pages/ExamDetailPage";
@@ -19,7 +20,11 @@ import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import NotFound from "./pages/NotFound";
-
+import SalesDashboard from "./pages/SalesDashboard";
+import SchoolDashboard from "./pages/SchoolDashboard";
+import StudentDashboard from "./pages/StudentDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import Login from "./pages/Login";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -27,13 +32,14 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login" element={<Login/>} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/exams" element={<ExamsPage />} />
               <Route path="/exams/:id" element={<ExamDetailPage />} />
@@ -46,11 +52,16 @@ const App = () => (
               <Route path="/blog/:id" element={<BlogDetailPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
+              <Route path="/sales-dashboard" element={<SalesDashboard />} />
+              <Route path="/school-dashboard" element={<SchoolDashboard />} />
+              <Route path="/student-dashboard" element={<StudentDashboard />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
             </Routes>
           </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
