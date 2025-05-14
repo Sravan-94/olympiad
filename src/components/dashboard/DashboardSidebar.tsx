@@ -85,7 +85,7 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ userType, onToggle }) => {
       {/* Mobile menu toggle button removed as it's now in the header */}
       
       <div 
-        className={`min-h-screen bg-education-blue flex flex-col text-white fixed md:static top-0 left-0 z-40 transition-all duration-300 ease-in-out w-[85%] sm:w-72 md:w-60 ${isMobileMenuOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 shadow-xl md:shadow-none overflow-y-auto`}
+        className={`min-h-screen bg-education-blue flex flex-col text-white fixed md:static top-0 left-0 z-50 transition-all duration-300 ease-in-out w-[85%] sm:w-72 md:w-60 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 shadow-xl md:shadow-none overflow-y-auto`}
       >
         <div className="px-4 md:px-6 py-6 md:py-8 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
@@ -94,15 +94,13 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ userType, onToggle }) => {
             </div>
             <span className="font-bold text-lg md:text-xl">EduVerse</span>
           </Link>
-          {isMobile && (
-            <button 
-              onClick={toggleMobileMenu} 
-              className="text-white p-1 hover:bg-blue-600 rounded-md transition-colors"
-              aria-label="Close menu"
-            >
-              <X size={20} />
-            </button>
-          )}
+          <button 
+            onClick={toggleMobileMenu} 
+            className="text-white p-1 hover:bg-blue-600 rounded-md transition-colors md:hidden"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
         </div>
         
         <div className="px-4 py-2">

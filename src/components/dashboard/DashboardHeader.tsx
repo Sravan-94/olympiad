@@ -37,19 +37,22 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, userName = 'Ra
     }
   };
   return (
-    <div className="bg-white py-3 md:py-4 px-4 md:px-6 flex items-center justify-between border-b sticky top-0 z-30 shadow-sm">
-      <div className="flex items-center gap-2">
+    <div className="bg-white py-2 md:py-4 px-3 md:px-6 flex items-center justify-between border-b sticky top-0 z-40 shadow-sm">
+      <div className="flex items-center gap-2 md:gap-3 overflow-hidden">
         {onMenuToggle && (
           <button 
             onClick={handleMenuToggle}
-            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors bg-education-blue text-white shadow-sm"
+            className="flex-shrink-0 p-2 rounded-md hover:bg-gray-100 transition-colors bg-education-blue text-white shadow-sm"
             aria-label="Toggle menu"
           >
-            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            {isSidebarOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         )}
-        <h1 className="text-xl font-semibold text-education-dark hidden md:block">{title}</h1>
-        <h1 className="text-lg font-semibold text-education-dark md:hidden">{title}</h1>
+        <div className="flex items-center overflow-hidden">
+          <a href="/" className="text-education-blue font-medium hover:underline text-sm whitespace-nowrap">Home</a>
+          <span className="text-gray-400 mx-1 flex-shrink-0">/</span>
+          <h1 className="text-base md:text-lg font-semibold text-education-dark truncate">{title}</h1>
+        </div>
       </div>
       
       <div className="flex items-center gap-3 md:gap-4">

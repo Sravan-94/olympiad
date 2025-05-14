@@ -114,18 +114,27 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 relative overflow-x-hidden">
       <DashboardSidebar userType={userType} onToggle={toggleSidebar} />
       
-      <div className={`flex-1 ${isSidebarOpen && isMobile ? 'opacity-50' : ''} pb-16`}>
+      {/* Dark overlay when sidebar is open on mobile */}
+      {isSidebarOpen && isMobile && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
+          onClick={toggleSidebar}
+          aria-hidden="true"
+        />
+      )}
+      
+      <div className="flex-1 pb-16 w-full max-w-full">
         <DashboardHeader 
           title="Exam Results" 
           onMenuToggle={toggleSidebar} 
           isSidebarOpen={isSidebarOpen} 
         />
         
-        <div className="p-4 md:p-6">
-          <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+        <div className="p-3 sm:p-4 md:p-6">
+          <div className="mb-4 md:mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100">
               <h3 className="text-sm font-medium text-gray-500 mb-1">Total Exams</h3>
               <p className="text-2xl font-semibold">{results.length}</p>
@@ -275,8 +284,8 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
             )}
 
             {/* Desktop table view - hidden on mobile */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full table-auto">
+            <div className="hidden md:block overflow-x-auto -mx-3 sm:mx-0">
+              <table className="w-full table-auto min-w-full">
                 <thead>
                   <tr className="text-left border-b border-gray-200">
                     <th className="px-4 py-3 text-sm font-medium text-gray-500">Exam Name</th>
@@ -311,9 +320,9 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
             </div>
             
             {/* Mobile card view - only visible on mobile */}
-            <div className="md:hidden space-y-3">
+            <div className="md:hidden space-y-3 mt-4">
               {results.map((result) => (
-                <div key={result.id} className="bg-gray-50 p-3 sm:p-4 rounded-lg shadow-sm">
+                <div key={result.id} className="bg-gray-50 p-3 rounded-lg shadow-sm">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-medium">{result.examName}</h3>
                     <span className="text-sm bg-amber-50 text-amber-500 px-2 py-1 rounded">{result.score}</span>
@@ -346,8 +355,8 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
             </div>
           </div>
 
-          <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2 sm:gap-0">
+          <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 mt-4 md:mt-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 md:mb-4 gap-2 sm:gap-0">
               <h2 className="text-lg font-semibold">Upcoming Exams</h2>
               <button className="text-sm text-education-blue hover:text-blue-700 font-medium">View Calendar</button>
             </div>
