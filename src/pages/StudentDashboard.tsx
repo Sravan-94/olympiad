@@ -41,7 +41,7 @@ const StudentDashboard: React.FC = () => {
                     <th className="px-4 py-3 text-sm font-medium text-gray-500">Created By</th>
                     <th className="px-4 py-3 text-sm font-medium text-gray-500">Time</th>
                     <th className="px-4 py-3 text-sm font-medium text-gray-500">Score</th>
-                    <th className="px-4 py-3 text-sm font-medium text-gray-500">Action</th>
+                   
                   </tr>
                 </thead>
                 <tbody>
@@ -52,9 +52,7 @@ const StudentDashboard: React.FC = () => {
                     <td className="px-4 py-3 text-sm">Oswal Experts</td>
                     <td className="px-4 py-3 text-sm">90 MIN</td>
                     <td className="px-4 py-3 text-sm">40/50</td>
-                    <td className="px-4 py-3 text-sm">
-                      <button className="px-3 py-1 bg-amber-50 text-amber-500 rounded-md text-xs font-medium">Re-Attempt</button>
-                    </td>
+                  
                   </tr>
                   <tr className="border-b border-gray-100">
                     <td className="px-4 py-3 text-sm">Electromagnetic Waves</td>
@@ -63,9 +61,7 @@ const StudentDashboard: React.FC = () => {
                     <td className="px-4 py-3 text-sm">Oswal Experts</td>
                     <td className="px-4 py-3 text-sm">90 MIN</td>
                     <td className="px-4 py-3 text-sm">35/50</td>
-                    <td className="px-4 py-3 text-sm">
-                      <button className="px-3 py-1 bg-education-blue bg-opacity-10 text-education-blue rounded-md text-xs font-medium">Attempt</button>
-                    </td>
+                    
                   </tr>
                   <tr className="border-b border-gray-100">
                     <td className="px-4 py-3 text-sm">Circles</td>
@@ -74,9 +70,7 @@ const StudentDashboard: React.FC = () => {
                     <td className="px-4 py-3 text-sm">Oswal Experts</td>
                     <td className="px-4 py-3 text-sm">90 MIN</td>
                     <td className="px-4 py-3 text-sm">42/50</td>
-                    <td className="px-4 py-3 text-sm">
-                      <button className="px-3 py-1 bg-education-blue bg-opacity-10 text-education-blue rounded-md text-xs font-medium">Attempt</button>
-                    </td>
+                  
                   </tr>
                   <tr className="border-b border-gray-100">
                     <td className="px-4 py-3 text-sm">Electromagnetic Waves</td>
@@ -85,9 +79,6 @@ const StudentDashboard: React.FC = () => {
                     <td className="px-4 py-3 text-sm">Oswal Experts</td>
                     <td className="px-4 py-3 text-sm">90 MIN</td>
                     <td className="px-4 py-3 text-sm">39/50</td>
-                    <td className="px-4 py-3 text-sm">
-                      <button className="px-3 py-1 bg-education-blue bg-opacity-10 text-education-blue rounded-md text-xs font-medium">Attempt</button>
-                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -105,14 +96,14 @@ const StudentDashboard: React.FC = () => {
                   <h3 className="font-medium">Chemistry Olympiad</h3>
                   <p className="text-sm text-gray-500">June 1, 2025 • 10:00 AM</p>
                 </div>
-                <button className="px-3 py-1 bg-education-blue text-white rounded-md text-sm font-medium">Practice</button>
+                
               </li>
               <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
                 <div>
                   <h3 className="font-medium">English Olympiad</h3>
                   <p className="text-sm text-gray-500">July 10, 2025 • 2:00 PM</p>
                 </div>
-                <button className="px-3 py-1 bg-education-blue text-white rounded-md text-sm font-medium">Practice</button>
+                    
               </li>
             </ul>
           </div>

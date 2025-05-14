@@ -1,30 +1,84 @@
-import React from 'react';
-import { Bell, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Bell, ChevronDown, Menu, X } from 'lucide-react';
 
 interface DashboardHeaderProps {
   title: string;
   userName?: string;
+  onMenuToggle?: () => void;
+  isSidebarOpen?: boolean;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, userName = 'Rahul Gupta' }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, userName = 'Rahul Gupta', onMenuToggle, isSidebarOpen = false }) => {
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listener
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  const toggleUserDropdown = () => {
+    setShowUserDropdown(!showUserDropdown);
+  };
+  
+  const handleMenuToggle = () => {
+    if (onMenuToggle) {
+      onMenuToggle();
+    }
+  };
   return (
-    <div className="bg-white py-4 px-6 flex items-center justify-between border-b">
-      <h1 className="text-xl font-semibold text-education-dark">{title}</h1>
+    <div className="bg-white py-3 md:py-4 px-4 md:px-6 flex items-center justify-between border-b sticky top-0 z-30 shadow-sm">
+      <div className="flex items-center gap-2">
+        {onMenuToggle && (
+          <button 
+            onClick={handleMenuToggle}
+            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors bg-education-blue text-white shadow-sm"
+            aria-label="Toggle menu"
+          >
+            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        )}
+        <h1 className="text-xl font-semibold text-education-dark hidden md:block">{title}</h1>
+        <h1 className="text-lg font-semibold text-education-dark md:hidden">{title}</h1>
+      </div>
       
-      <div className="flex items-center gap-4">
-        <button className="relative">
+      <div className="flex items-center gap-3 md:gap-4">
+        <button className="relative p-1 hover:bg-gray-100 rounded-full">
           <Bell size={20} className="text-gray-600" />
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
             3
           </span>
         </button>
         
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-education-blue flex items-center justify-center text-white">
-            {userName.charAt(0)}
-          </div>
-          <span className="text-sm font-medium mr-1">{userName}</span>
-          <ChevronDown size={16} className="text-gray-600" />
+        <div className="relative">
+          <button 
+            onClick={toggleUserDropdown}
+            className="flex items-center gap-2 p-1 rounded-md hover:bg-gray-100 transition-colors"
+          >
+            <div className="h-8 w-8 rounded-full bg-education-blue flex items-center justify-center text-white">
+              {userName.charAt(0)}
+            </div>
+            <span className="text-sm font-medium mr-1 hidden sm:inline">{userName}</span>
+            <ChevronDown size={16} className="text-gray-600 hidden sm:inline" />
+          </button>
+          
+          {showUserDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-100">
+              <a href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+              <a href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+              <a href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+            </div>
+          )}
         </div>
       </div>
     </div>
