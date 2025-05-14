@@ -3,7 +3,12 @@ import Hero from "../components/home/Hero";
 import Features from "../components/home/Features";
 import TestimonialCard from "../components/home/TestimonialCard";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight, School,
+  Users,
+  BarChart3,
+  Star,
+} from "lucide-react";
 import ExamCard from "../components/exams/ExamCard";
 
 const HomePage = () => {
@@ -67,7 +72,7 @@ const HomePage = () => {
     <div>
       <Hero />
       <Features />
-      
+
       {/* Featured Exams Section */}
       <section className="py-16 bg-gray-50">
         <div className="education-container">
@@ -77,7 +82,7 @@ const HomePage = () => {
               View All <ArrowRight size={18} className="ml-1" />
             </Link>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredExams.map((exam) => (
               <ExamCard key={exam.id} {...exam} />
@@ -85,25 +90,94 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
-      {/* CTA Section */}
-      <section className="py-16 bg-education-blue text-white">
-        <div className="education-container text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Excel in Your Academic Journey?</h2>
-          <p className="text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of students who have improved their exam scores through our platform.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link to="/register" className="bg-white text-education-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-md transition-all shadow-md">
-              Get Started
-            </Link>
-            <Link to="/exams" className="border border-white text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-md transition-all">
-              Explore Exams
+
+      <section className="py-16 bg-white">
+        <div className="education-container">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-education-dark">For Schools</h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+              Partner with us to provide your students with comprehensive exam preparation.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Card 1 - School Registration */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md transition hover:shadow-lg">
+              <div className="flex items-center mb-4 text-education-blue">
+                <School size={32} className="mr-3" />
+                <h3 className="text-xl font-semibold">School Registration</h3>
+              </div>
+              <p className="text-gray-700 mb-4">
+                Register your school as a partner and gain access to our comprehensive exam preparation platform.
+              </p>
+              <Link to="/school-registration" className="text-education-blue hover:text-blue-700 flex items-center font-medium">
+                Learn More <ArrowRight size={18} className="ml-1" />
+              </Link>
+            </div>
+
+            {/* Card 2 - Bulk Registration */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md transition hover:shadow-lg">
+              <div className="flex items-center mb-4 text-education-blue">
+                <Users size={32} className="mr-3" />
+                <h3 className="text-xl font-semibold">Bulk Registration</h3>
+              </div>
+              <p className="text-gray-700 mb-4">
+                Register multiple students at once and manage their accounts from a central dashboard.
+              </p>
+              <Link to="/bulk-registration" className="text-education-blue hover:text-blue-700 flex items-center font-medium">
+                Learn More <ArrowRight size={18} className="ml-1" />
+              </Link>
+            </div>
+
+            {/* Card 3 - Performance Tracking */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md transition hover:shadow-lg">
+              <div className="flex items-center mb-4 text-education-blue">
+                <BarChart3 size={32} className="mr-3" />
+                <h3 className="text-xl font-semibold">Performance Tracking</h3>
+              </div>
+              <p className="text-gray-700 mb-4">
+                Monitor your students' progress and performance with detailed analytics and reports.
+              </p>
+              <Link to="/performance-tracking" className="text-education-blue hover:text-blue-700 flex items-center font-medium">
+                Learn More <ArrowRight size={18} className="ml-1" />
+              </Link>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-12">
+            <Link
+              to="/signup"
+              className="bg-education-blue text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-md transition-all shadow-md"
+            >
+              Become a Partner School
             </Link>
           </div>
         </div>
       </section>
-      
+      <section className="py-16 bg-white">
+  <div className="education-container text-center bg-education-blue text-white rounded-[50px] border border-white py-12 px-6">  <h2 className="text-3xl md:text-4xl font-bold mb-6">Become an Olympiad Coordinator</h2>
+    <p className="text-lg mb-8 max-w-2xl mx-auto">
+      Join our team of dedicated educators and help students excel in competitive exams. As a coordinator, you'll organize exams, provide guidance, and connect schools with our platform.
+    </p>
+    <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+      <Link
+        to="/coordinator-application"
+        className="bg-white text-education-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-md transition-all shadow-md"
+      >
+        Apply Now
+      </Link>
+      <Link
+        to="/contact"
+        className="border border-white text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-md transition-all"
+      >
+        Contact Us
+      </Link>
+    </div>
+  </div>
+</section>
+
+
       {/* Testimonials Section */}
       <section className="py-16 bg-white">
         <div className="education-container">
@@ -113,7 +187,7 @@ const HomePage = () => {
               Hear from students, parents, and schools who have experienced success with EduVerse.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard key={index} {...testimonial} />
@@ -121,36 +195,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
-      {/* Partners Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="education-container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-education-dark mb-4">Our Partners</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We collaborate with leading educational institutions and organizations.
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-12 items-center opacity-70">
-            <div className="w-40 h-20 flex items-center justify-center">
-              <div className="text-2xl font-bold text-gray-500">University A</div>
-            </div>
-            <div className="w-40 h-20 flex items-center justify-center">
-              <div className="text-2xl font-bold text-gray-500">EduTrust</div>
-            </div>
-            <div className="w-40 h-20 flex items-center justify-center">
-              <div className="text-2xl font-bold text-gray-500">LearnCorp</div>
-            </div>
-            <div className="w-40 h-20 flex items-center justify-center">
-              <div className="text-2xl font-bold text-gray-500">SchoolNet</div>
-            </div>
-            <div className="w-40 h-20 flex items-center justify-center">
-              <div className="text-2xl font-bold text-gray-500">AcademyX</div>
-            </div>
-          </div>
-        </div>
-      </section>
+
+    
+
     </div>
   );
 };

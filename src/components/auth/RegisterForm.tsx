@@ -32,18 +32,37 @@ const RegisterForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Register with:", { userType, ...formData });
-      setIsLoading(false);
-      // Redirect to success page or login
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+      }
+  
+      const result = await response.json();
+      console.log("Registered successfully:", result);
       navigate("/registration-success");
-    }, 2000);
+    } catch (error: any) {
+      alert(error.message); // Replace with your toast system if needed
+      console.error("Registration error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   return (
     <div className="w-full max-w-2xl mx-auto">

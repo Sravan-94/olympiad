@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">EduVerse</h3>
+            <h3 className="text-xl font-bold mb-4">My Olympiad</h3>
             <p className="text-gray-300 mb-4">
               Empowering students through quality education and exam preparation. Join our platform to excel in your academic journey.
             </p>
@@ -89,14 +89,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="mr-2 flex-shrink-0" />
-                <span className="text-gray-300">info@eduverse.com</span>
+                <span className="text-gray-300">info@MyOlympiad.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-700 pt-6 mt-8 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} EduVerse. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} My Olympiad. All rights reserved.</p>
         </div>
       </div>
     </footer>

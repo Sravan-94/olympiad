@@ -93,7 +93,7 @@ const ExamsPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search bar */}
-            <div className="relative">
+            <div className="relative mt-[21px]">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search size={18} className="text-gray-400" />
               </div>

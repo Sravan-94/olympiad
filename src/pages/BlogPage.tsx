@@ -144,7 +144,7 @@ const BlogPage = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="education-container">
         <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-education-dark mb-4">MyOlympiad Blog</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-education-dark mb-4">My Olympiad Blog</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Stay updated with the latest news, tips, and insights for academic olympiads and competitions.
           </p>
