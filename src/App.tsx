@@ -26,14 +26,14 @@ import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ExamResultsPage from "./components/Dashbordspages/examresults";
 import Login from "./pages/Login";
-<<<<<<< HEAD
+
 import Forgotpassword from "./pages/ForgotPassword";
-=======
+
 import SalesTeam from "./components/Dashbordspages/Salesteam";
 import Schools from "./components/Dashbordspages/Schools";
 import Tasks from "./components/Dashbordspages/Tasks";
 import UpcomingExams from "./components/Dashbordspages/Upcomingexams";
->>>>>>> c392110890752f5cf92f17b109b18b5105cd0019
+ 
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -67,16 +67,16 @@ const App = () => (
               <Route path="/student-exams" element={<ExamResultsPage userType="student" />} />
               <Route path="/student-exam-results" element={<ExamResultsPage userType="student" />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
-<<<<<<< HEAD
+
               <Route path="/forgotpassword" element={<Forgotpassword />} />
-=======
+
               <Route path="/admin-exam-results" element={<ExamResultsPage userType="admin" />} />
               <Route path="/school-exam-results" element={<ExamResultsPage userType="school" />} />
               <Route path="/sales-team" element={<SalesTeam />} />
               <Route path="/schools" element={<Schools userType="admin" />} />
               <Route path="/tasks" element={<Tasks userType="admin" />} />
               <Route path="/upcoming-exams" element={<UpcomingExams userType="admin" />} />
->>>>>>> c392110890752f5cf92f17b109b18b5105cd0019
+c392110890752f5cf92f17b109b18b5105cd0019
             </Routes>
           </main>
             <Footer />
