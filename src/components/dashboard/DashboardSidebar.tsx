@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -17,10 +17,12 @@ interface SidebarProps {
   userType: 'student' | 'admin' | 'school' | 'sales';
   isSidebarOpen: boolean;
   onClose: () => void;
+  onNavigation?: (section: string) => void;
 }
 
-const DashboardSidebar: React.FC<SidebarProps> = ({ userType, isSidebarOpen, onClose }) => {
+const DashboardSidebar: React.FC<SidebarProps> = ({ userType, isSidebarOpen, onClose, onNavigation }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -44,28 +46,27 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ userType, isSidebarOpen, onC
         return [
           { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/student-dashboard' },
           { icon: <BookOpen size={20} />, label: 'Exam Results', path: '/student-exam-results' },
-          { icon: <FileText size={20} />, label: 'Tests', path: '/upcoming-exams' },
+          { icon: <FileText size={20} />, label: 'Tests', path: '/student-upcoming-exams' },
         ];
       case 'school':
         return [
           { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/school-dashboard' },
-          { icon: <Users size={20} />, label: 'Students', path: '/schools' },
-          { icon: <FileText size={20} />, label: 'Tests', path: '/upcoming-exams' },
+          { icon: <Users size={20} />, label: 'Students', path: '/school-students' },
+          { icon: <FileText size={20} />, label: 'Tests', path: '/school-upcoming-exams' },
           { icon: <BarChart size={20} />, label: 'Exam Results', path: '/school-exam-results' },
         ];
       case 'sales':
         return [
           { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/sales-dashboard' },
-          { icon: <Users size={20} />, label: 'Schools', path: '/schools' },
-          { icon: <Check size={20} />, label: 'Tasks', path: '/tasks' },
+          { icon: <Users size={20} />, label: 'Schools', path: '/sales-schools' },
+          { icon: <Check size={20} />, label: 'Tasks', path: '/sales-tasks' },
         ];
       case 'admin':
         return [
           { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin-dashboard' },
-          { icon: <Users size={20} />, label: 'Schools', path: '/schools' },
-          { icon: <FileText size={20} />, label: 'Exam Results', path: '/upcoming-exams'},
-          { icon: <BarChart size={20} />, label: 'Sales Team', path: '/sales-team' },
-          { icon: <Check size={20} />, label: 'Tasks', path: '/tasks' },
+          { icon: <Users size={20} />, label: 'Schools', path: '/admin-schools' },
+          { icon: <FileText size={20} />, label: 'Exam Results', path: '/admin-upcoming-exams'},
+          { icon: <Check size={20} />, label: 'Tasks', path: '/admin-tasks' },
         ];
       default:
         return [];
@@ -122,18 +123,25 @@ const DashboardSidebar: React.FC<SidebarProps> = ({ userType, isSidebarOpen, onC
             <ul className="space-y-1">
               {getNavItems().map((item, index) => (
                 <li key={index}>
-                  <Link
-                    to={item.path}
-                    className={`flex items-center px-4 md:px-6 py-3 text-sm font-medium rounded-md transition-colors mx-2 ${
+                  <button
+                    className={`flex items-center w-full text-left px-4 md:px-6 py-3 text-sm font-medium rounded-md transition-colors mx-2 ${
                       location.pathname === item.path
                         ? 'bg-white text-education-blue'
                         : 'text-white hover:bg-blue-600'
                     }`}
-                    onClick={() => isMobile && onClose()}
+                    onClick={() => {
+                      if (isMobile) onClose();
+                      if (onNavigation) {
+                        // Use internal navigation if provided
+                        onNavigation(item.label.toLowerCase());
+                      }
+                      // Use React Router's navigate function instead of directly modifying window.location
+                      navigate(item.path);
+                    }}
                   >
                     <span className="mr-3">{item.icon}</span>
                     <span className="truncate">{item.label}</span>
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>

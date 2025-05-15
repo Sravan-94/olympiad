@@ -1,33 +1,46 @@
 import React, { useState, useEffect } from "react";
-import DashboardSidebar from "../components/dashboard/DashboardSidebar";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
 import { Building, TrendingUp, PhoneCall, CreditCard } from "lucide-react";
 import Schools from "../components/Dashbordspages/Schools";
 import Tasks from "../components/Dashbordspages/Tasks";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SalesDashboard: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'dashboard' | 'schools' | 'tasks'>('dashboard');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check URL path to determine active section on initial load
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    if (location.pathname === '/sales-dashboard') {
+      setActiveSection('dashboard');
+    } else if (location.pathname === '/schools') {
+      setActiveSection('schools');
+    } else if (location.pathname === '/tasks') {
+      setActiveSection('tasks');
+    }
+  }, [location.pathname]);
+
+  // Listen for navigation events from the DashboardLayout
+  useEffect(() => {
+    const handleDashboardNavigation = (event: CustomEvent) => {
+      const { section, userType } = event.detail;
+      
+      if (userType === 'sales') {
+        if (section === 'dashboard') {
+          setActiveSection('dashboard');
+        } else if (section === 'schools') {
+          setActiveSection('schools');
+        } else if (section === 'tasks') {
+          setActiveSection('tasks');
+        }
+      }
     };
     
-    // Initial check
-    checkIfMobile();
-    
-    // Add event listener
-    window.addEventListener('resize', checkIfMobile);
+    document.addEventListener('dashboard-navigation', handleDashboardNavigation as EventListener);
     
     // Clean up
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => document.removeEventListener('dashboard-navigation', handleDashboardNavigation as EventListener);
   }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
   const renderContent = () => {
     switch(activeSection) {
@@ -122,60 +135,36 @@ const SalesDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 relative overflow-x-hidden">
-      <DashboardSidebar 
-        userType="sales" 
-        isSidebarOpen={isSidebarOpen}
-        onClose={toggleSidebar}
-      />
-      
-      {/* Dark overlay when sidebar is open on mobile */}
-      {isSidebarOpen && isMobile && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
-          onClick={toggleSidebar}
-          aria-hidden="true"
-        />
-      )}
-      
-      <div className="flex-1 w-full max-w-full">
-        <DashboardHeader 
-          title="Sales Dashboard" 
-          userName="Sales Team"
-          onMenuToggle={toggleSidebar}
-          isSidebarOpen={isSidebarOpen}
-        />
-        
-        <div className="mb-4 md:mb-6 flex border-b border-gray-200 bg-white overflow-x-auto">
-          <button
-            onClick={() => setActiveSection('dashboard')}
-            className={`px-6 py-3 text-sm font-medium ${activeSection === 'dashboard' 
-              ? 'text-education-blue border-b-2 border-education-blue' 
-              : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Dashboard
-          </button>
-          <button
-            onClick={() => setActiveSection('schools')}
-            className={`px-6 py-3 text-sm font-medium ${activeSection === 'schools' 
-              ? 'text-education-blue border-b-2 border-education-blue' 
-              : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Schools
-          </button>
-          <button
-            onClick={() => setActiveSection('tasks')}
-            className={`px-6 py-3 text-sm font-medium ${activeSection === 'tasks' 
-              ? 'text-education-blue border-b-2 border-education-blue' 
-              : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Tasks
-          </button>
-        </div>
-
-        {renderContent()}
+    <>
+      <div className="mb-4 md:mb-6 flex border-b border-gray-200 bg-white overflow-x-auto">
+        <button
+          onClick={() => setActiveSection('dashboard')}
+          className={`px-6 py-3 text-sm font-medium ${activeSection === 'dashboard' 
+            ? 'text-education-blue border-b-2 border-education-blue' 
+            : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Dashboard
+        </button>
+        <button
+          onClick={() => setActiveSection('schools')}
+          className={`px-6 py-3 text-sm font-medium ${activeSection === 'schools' 
+            ? 'text-education-blue border-b-2 border-education-blue' 
+            : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Schools
+        </button>
+        <button
+          onClick={() => setActiveSection('tasks')}
+          className={`px-6 py-3 text-sm font-medium ${activeSection === 'tasks' 
+            ? 'text-education-blue border-b-2 border-education-blue' 
+            : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Tasks
+        </button>
       </div>
-    </div>
+
+      {renderContent()}
+    </>
   );
 };;
 

@@ -62,7 +62,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               <Route path="/sales-dashboard" element={<SalesDashboard />} />
-              <Route path="/school-dashboard" element={<SchoolDashboard />} />
+              <Route path="/school-dashboard" element={<SchoolDashboard userType={"school"} />} />
               <Route path="/student-dashboard" element={<StudentDashboard />} />
               <Route path="/student-exams" element={<ExamResultsPage userType="student" />} />
               <Route path="/student-exam-results" element={<ExamResultsPage userType="student" />} />
@@ -76,7 +76,6 @@ const App = () => (
               <Route path="/schools" element={<Schools userType="admin" />} />
               <Route path="/tasks" element={<Tasks userType="admin" />} />
               <Route path="/upcoming-exams" element={<UpcomingExams userType="admin" />} />
-c392110890752f5cf92f17b109b18b5105cd0019
             </Routes>
           </main>
             <Footer />
