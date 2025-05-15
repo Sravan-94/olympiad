@@ -25,6 +25,7 @@ import SchoolDashboard from "./pages/SchoolDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
+import Forgotpassword from "./pages/ForgotPassword";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="/school-dashboard" element={<SchoolDashboard />} />
               <Route path="/student-dashboard" element={<StudentDashboard />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/forgotpassword" element={<Forgotpassword />} />
             </Routes>
           </main>
             <Footer />

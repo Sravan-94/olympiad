@@ -80,7 +80,7 @@ const LoginForm = () => {
             </label>
           </div>
           
-          <Link to="/forgot-password" className="text-sm text-education-blue hover:text-blue-700">
+          <Link to="/forgotpassword"className="text-sm text-education-blue hover:text-blue-700">
             Forgot password?
           </Link>
         </div>
