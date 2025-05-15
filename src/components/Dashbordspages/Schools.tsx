@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { School, MapPin, Phone, Mail, Plus, Trash2, PenLine, User, Building } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { School, MapPin, Phone, Mail, Plus, Trash2, PenLine, Building, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface SchoolData {
   id: string;
@@ -17,6 +19,7 @@ interface SchoolsProps {
 }
 
 const Schools: React.FC<SchoolsProps> = ({ userType }) => {
+  const navigate = useNavigate();
   const [schools, setSchools] = useState<SchoolData[]>([
     {
       id: '1',
@@ -302,9 +305,16 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                         <PenLine size={16} />
                       </button>
                       <button 
+                        onClick={() => navigate(`/school/${school.id}`)}
+                        className="text-blue-500 hover:text-blue-700" 
+                        title="View Details"
+                      >
+                        <School size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteSchool(school.id)}
                         className="text-red-500 hover:text-red-700" 
                         title="Delete School"
-                        onClick={() => handleDeleteSchool(school.id)}
                       >
                         <Trash2 size={16} />
                       </button>
@@ -353,8 +363,15 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                     <PenLine size={16} />
                   </button>
                   <button 
-                    className="p-2 bg-gray-100 text-red-500 rounded-md"
+                    onClick={() => navigate(`/school/${school.id}`)}
+                    className="p-2 bg-gray-100 text-blue-500 rounded-md"
+                    title="View Details"
+                  >
+                    <School size={16} />
+                  </button>
+                  <button 
                     onClick={() => handleDeleteSchool(school.id)}
+                    className="p-2 bg-gray-100 text-red-500 rounded-md"
                   >
                     <Trash2 size={16} />
                   </button>
