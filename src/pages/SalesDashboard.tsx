@@ -125,7 +125,8 @@ const SalesDashboard: React.FC = () => {
     <div className="flex min-h-screen bg-gray-50 relative overflow-x-hidden">
       <DashboardSidebar 
         userType="sales" 
-        onToggle={toggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+        onClose={toggleSidebar}
       />
       
       {/* Dark overlay when sidebar is open on mobile */}
