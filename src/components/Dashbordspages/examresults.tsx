@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface ExamResult {
   id: string;
@@ -13,31 +13,10 @@ interface ExamResult {
 }
 
 interface ExamResultsPageProps {
-  userType?: 'student' | 'admin' | 'school' | 'sales';
+  userType: 'student' | 'admin' | 'school' | 'sales';
 }
 
 const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkIfMobile();
-    
-    // Add event listener
-    window.addEventListener('resize', checkIfMobile);
-    
-    // Clean up
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
   const [results, setResults] = useState<ExamResult[]>([
     {
       id: '1',

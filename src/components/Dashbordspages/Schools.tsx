@@ -13,7 +13,7 @@ interface SchoolData {
 }
 
 interface SchoolsProps {
-  userType: 'admin' | 'sales';
+  userType: 'admin' | 'sales' | 'student' | 'school';
 }
 
 const Schools: React.FC<SchoolsProps> = ({ userType }) => {

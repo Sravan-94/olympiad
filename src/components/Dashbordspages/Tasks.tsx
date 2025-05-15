@@ -14,7 +14,7 @@ interface Task {
 }
 
 interface TasksProps {
-  userType: 'admin' | 'sales';
+  userType: 'admin' | 'sales' | 'student' | 'school';
 }
 
 const Tasks: React.FC<TasksProps> = ({ userType }) => {
