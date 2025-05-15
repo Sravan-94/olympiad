@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./components/auth/AuthContext";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -24,8 +24,16 @@ import SalesDashboard from "./pages/SalesDashboard";
 import SchoolDashboard from "./pages/SchoolDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ExamResultsPage from "./components/Dashbordspages/examresults";
 import Login from "./pages/Login";
+<<<<<<< HEAD
 import Forgotpassword from "./pages/ForgotPassword";
+=======
+import SalesTeam from "./components/Dashbordspages/Salesteam";
+import Schools from "./components/Dashbordspages/Schools";
+import Tasks from "./components/Dashbordspages/Tasks";
+import UpcomingExams from "./components/Dashbordspages/Upcomingexams";
+>>>>>>> c392110890752f5cf92f17b109b18b5105cd0019
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -34,7 +42,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
@@ -56,13 +64,24 @@ const App = () => (
               <Route path="/sales-dashboard" element={<SalesDashboard />} />
               <Route path="/school-dashboard" element={<SchoolDashboard />} />
               <Route path="/student-dashboard" element={<StudentDashboard />} />
+              <Route path="/student-exams" element={<ExamResultsPage userType="student" />} />
+              <Route path="/student-exam-results" element={<ExamResultsPage userType="student" />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
+<<<<<<< HEAD
               <Route path="/forgotpassword" element={<Forgotpassword />} />
+=======
+              <Route path="/admin-exam-results" element={<ExamResultsPage userType="admin" />} />
+              <Route path="/school-exam-results" element={<ExamResultsPage userType="school" />} />
+              <Route path="/sales-team" element={<SalesTeam />} />
+              <Route path="/schools" element={<Schools userType="admin" />} />
+              <Route path="/tasks" element={<Tasks userType="admin" />} />
+              <Route path="/upcoming-exams" element={<UpcomingExams userType="admin" />} />
+>>>>>>> c392110890752f5cf92f17b109b18b5105cd0019
             </Routes>
           </main>
             <Footer />
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

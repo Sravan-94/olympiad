@@ -1,207 +1,182 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
-import { PlusCircle, PhoneCall, MapPin, School, CreditCard, TrendingUp, Building } from "lucide-react";
+import { Building, TrendingUp, PhoneCall, CreditCard } from "lucide-react";
+import Schools from "../components/Dashbordspages/Schools";
+import Tasks from "../components/Dashbordspages/Tasks";
 
 const SalesDashboard: React.FC = () => {
-  const [schoolName, setSchoolName] = useState("");
-  const [schoolAddress, setSchoolAddress] = useState("");
-  const [schoolContact, setSchoolContact] = useState("");
-  const [salesStatus, setSalesStatus] = useState("interested");
+  const [activeSection, setActiveSection] = useState<'dashboard' | 'schools' | 'tasks'>('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const handleAddSchool = () => {
-    // Logic for adding a school to the list (this would likely be sent to your backend)
-    alert("School added!");
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listener
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const renderContent = () => {
+    switch(activeSection) {
+      case 'schools':
+        return <Schools userType="sales" />;
+      case 'tasks':
+        return <Tasks userType="sales" />;
+      default:
+        return (
+          <div className="p-6">
+            <div className="mb-4 md:mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
+                <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                  <Building className="h-6 w-6 text-education-blue" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Total Schools</h3>
+                  <p className="text-2xl font-semibold">256</p>
+                </div>
+              </div>
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
+                <div className="h-12 w-12 rounded-full bg-teal-100 flex items-center justify-center mr-4">
+                  <TrendingUp className="h-6 w-6 text-education-teal" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">New Leads</h3>
+                  <p className="text-2xl font-semibold">42</p>
+                </div>
+              </div>
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
+                <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+                  <PhoneCall className="h-6 w-6 text-amber-500" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Calls Made</h3>
+                  <p className="text-2xl font-semibold">128</p>
+                </div>
+              </div>
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
+                <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                  <CreditCard className="h-6 w-6 text-purple-500" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Revenue</h3>
+                  <p className="text-2xl font-semibold">₹45K</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-6">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+                <div className="flex border-b border-gray-200">
+                  <button className="px-6 py-3 text-sm font-medium text-education-blue border-b-2 border-education-blue">
+                    Schools Management
+                  </button>
+                </div>
+                <div className="p-6">
+                  <button 
+                    onClick={() => setActiveSection('schools')}
+                    className="w-full bg-education-blue text-white p-3 rounded-md hover:bg-blue-700 transition-colors mb-4"
+                  >
+                    Manage Schools
+                  </button>
+                  <p className="text-gray-600 text-sm">
+                    Add new schools, update existing school information, and track school onboarding status.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+                <div className="flex border-b border-gray-200">
+                  <button className="px-6 py-3 text-sm font-medium text-education-blue border-b-2 border-education-blue">
+                    Task Management
+                  </button>
+                </div>
+                <div className="p-6">
+                  <button 
+                    onClick={() => setActiveSection('tasks')}
+                    className="w-full bg-education-blue text-white p-3 rounded-md hover:bg-blue-700 transition-colors mb-4"
+                  >
+                    View Tasks
+                  </button>
+                  <p className="text-gray-600 text-sm">
+                    View your assigned tasks, update their status, and provide comments on your progress.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+    }
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebar userType="sales" />
+    <div className="flex min-h-screen bg-gray-50 relative overflow-x-hidden">
+      <DashboardSidebar 
+        userType="sales" 
+        isSidebarOpen={isSidebarOpen}
+        onClose={toggleSidebar}
+      />
       
-      <div className="flex-1">
-        <DashboardHeader title="Sales Dashboard" userName="Sales Team" />
+      {/* Dark overlay when sidebar is open on mobile */}
+      {isSidebarOpen && isMobile && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
+          onClick={toggleSidebar}
+          aria-hidden="true"
+        />
+      )}
+      
+      <div className="flex-1 w-full max-w-full">
+        <DashboardHeader 
+          title="Sales Dashboard" 
+          userName="Sales Team"
+          onMenuToggle={toggleSidebar}
+          isSidebarOpen={isSidebarOpen}
+        />
         
-        <div className="p-6">
-          <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
-              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                <Building className="h-6 w-6 text-education-blue" />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Total Schools</h3>
-                <p className="text-2xl font-semibold">256</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
-              <div className="h-12 w-12 rounded-full bg-teal-100 flex items-center justify-center mr-4">
-                <TrendingUp className="h-6 w-6 text-education-teal" />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">New Leads</h3>
-                <p className="text-2xl font-semibold">42</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
-              <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
-                <PhoneCall className="h-6 w-6 text-amber-500" />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Calls Made</h3>
-                <p className="text-2xl font-semibold">128</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center">
-              <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
-                <CreditCard className="h-6 w-6 text-purple-500" />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Revenue</h3>
-                <p className="text-2xl font-semibold">₹45K</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg font-semibold">Add a New School</h2>
-                <button className="flex items-center gap-1 text-sm text-education-blue hover:text-blue-700">
-                  <PlusCircle size={16} />
-                  New Lead
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">School Name</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <School className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      value={schoolName}
-                      onChange={(e) => setSchoolName(e.target.value)}
-                      placeholder="Enter school name"
-                      className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">School Address</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MapPin className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      value={schoolAddress}
-                      onChange={(e) => setSchoolAddress(e.target.value)}
-                      placeholder="Enter school address"
-                      className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Information</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <PhoneCall className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      value={schoolContact}
-                      onChange={(e) => setSchoolContact(e.target.value)}
-                      placeholder="Phone or email"
-                      className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                  <select
-                    value={salesStatus}
-                    onChange={(e) => setSalesStatus(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
-                  >
-                    <option value="interested">Interested</option>
-                    <option value="contacted">Contacted</option>
-                    <option value="onboarded">Onboarded</option>
-                  </select>
-                </div>
-                <button
-                  onClick={handleAddSchool}
-                  className="w-full bg-education-blue text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
-                >
-                  Add School
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg font-semibold">Recent Leads</h2>
-                <button className="text-sm text-education-blue hover:text-blue-700">View All</button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full table-auto">
-                  <thead>
-                    <tr className="text-left border-b border-gray-200">
-                      <th className="px-4 py-3 text-sm font-medium text-gray-500">School</th>
-                      <th className="px-4 py-3 text-sm font-medium text-gray-500">Contact</th>
-                      <th className="px-4 py-3 text-sm font-medium text-gray-500">Status</th>
-                      <th className="px-4 py-3 text-sm font-medium text-gray-500">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-gray-100">
-                      <td className="px-4 py-3 text-sm">Delhi Public School</td>
-                      <td className="px-4 py-3 text-sm">principal@dps.edu</td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Onboarded</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button className="text-education-blue hover:text-blue-700">Details</button>
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="px-4 py-3 text-sm">Ryan International</td>
-                      <td className="px-4 py-3 text-sm">+91 9876543210</td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Contacted</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button className="text-education-blue hover:text-blue-700">Details</button>
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="px-4 py-3 text-sm">Kendriya Vidyalaya</td>
-                      <td className="px-4 py-3 text-sm">admin@kv.edu</td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Interested</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button className="text-education-blue hover:text-blue-700">Details</button>
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="px-4 py-3 text-sm">St. Mary's School</td>
-                      <td className="px-4 py-3 text-sm">+91 9887766554</td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Interested</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button className="text-education-blue hover:text-blue-700">Details</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+        <div className="mb-4 md:mb-6 flex border-b border-gray-200 bg-white overflow-x-auto">
+          <button
+            onClick={() => setActiveSection('dashboard')}
+            className={`px-6 py-3 text-sm font-medium ${activeSection === 'dashboard' 
+              ? 'text-education-blue border-b-2 border-education-blue' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => setActiveSection('schools')}
+            className={`px-6 py-3 text-sm font-medium ${activeSection === 'schools' 
+              ? 'text-education-blue border-b-2 border-education-blue' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            Schools
+          </button>
+          <button
+            onClick={() => setActiveSection('tasks')}
+            className={`px-6 py-3 text-sm font-medium ${activeSection === 'tasks' 
+              ? 'text-education-blue border-b-2 border-education-blue' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            Tasks
+          </button>
         </div>
+
+        {renderContent()}
       </div>
     </div>
   );
-};
+};;
 
 export default SalesDashboard;
