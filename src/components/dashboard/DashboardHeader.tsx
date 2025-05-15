@@ -11,7 +11,7 @@ interface DashboardHeaderProps {
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, userName = 'Rahul Gupta', onMenuToggle, isSidebarOpen = false }) => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -26,26 +26,30 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title, userName = 'Ra
     // Clean up
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
-  
+
   const toggleUserDropdown = () => {
     setShowUserDropdown(!showUserDropdown);
   };
-  
+
   const handleMenuToggle = () => {
     if (onMenuToggle) {
       onMenuToggle();
     }
   };
+
   return (
     <div className="bg-white py-2 md:py-4 px-3 md:px-6 flex items-center justify-between border-b sticky top-0 z-40 shadow-sm">
       <div className="flex items-center gap-2 md:gap-3 overflow-hidden">
         {onMenuToggle && (
           <button 
             onClick={handleMenuToggle}
-            className="flex-shrink-0 p-2 rounded-md hover:bg-gray-100 transition-colors bg-education-blue text-white shadow-sm"
+            className="flex-shrink-0 p-2 rounded-md hover:bg-blue-700 transition-all duration-200 ease-in-out bg-education-blue text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
             aria-label="Toggle menu"
           >
-            {isSidebarOpen ? <X size={18} /> : <Menu size={18} />}
+            <div className="relative w-5 h-5 flex items-center justify-center">
+              <Menu size={20} className={`absolute transform transition-all duration-200 ${isSidebarOpen ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'}`} />
+              <X size={20} className={`absolute transform transition-all duration-200 ${isSidebarOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'}`} />
+            </div>
           </button>
         )}
         <div className="flex items-center overflow-hidden">

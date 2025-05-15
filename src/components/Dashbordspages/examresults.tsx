@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import DashboardSidebar from '../dashboard/DashboardSidebar';
-import DashboardHeader from '../dashboard/DashboardHeader';
 
 interface ExamResult {
   id: string;
@@ -114,24 +112,7 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 relative overflow-x-hidden">
-      <DashboardSidebar userType={userType} onToggle={toggleSidebar} />
-      
-      {/* Dark overlay when sidebar is open on mobile */}
-      {isSidebarOpen && isMobile && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
-          onClick={toggleSidebar}
-          aria-hidden="true"
-        />
-      )}
-      
-      <div className="flex-1 pb-16 w-full max-w-full">
-        <DashboardHeader 
-          title="Exam Results" 
-          onMenuToggle={toggleSidebar} 
-          isSidebarOpen={isSidebarOpen} 
-        />
+    <div>
         
         <div className="p-3 sm:p-4 md:p-6">
           <div className="mb-4 md:mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
@@ -378,7 +359,6 @@ const ExamResultsPage: React.FC<ExamResultsPageProps> = ({ userType = 'student' 
             </ul>
           </div>
         </div>
-      </div>
     </div>
   );
 };

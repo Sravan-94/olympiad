@@ -26,6 +26,10 @@ import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ExamResultsPage from "./components/Dashbordspages/examresults";
 import Login from "./pages/Login";
+import SalesTeam from "./components/Dashbordspages/Salesteam";
+import Schools from "./components/Dashbordspages/Schools";
+import Tasks from "./components/Dashbordspages/Tasks";
+import UpcomingExams from "./components/Dashbordspages/Upcomingexams";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -61,6 +65,10 @@ const App = () => (
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="/admin-exam-results" element={<ExamResultsPage userType="admin" />} />
               <Route path="/school-exam-results" element={<ExamResultsPage userType="school" />} />
+              <Route path="/sales-team" element={<SalesTeam />} />
+              <Route path="/schools" element={<Schools userType="admin" />} />
+              <Route path="/tasks" element={<Tasks userType="admin" />} />
+              <Route path="/upcoming-exams" element={<UpcomingExams userType="admin" />} />
             </Routes>
           </main>
             <Footer />
