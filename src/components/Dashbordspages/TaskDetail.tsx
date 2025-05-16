@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, Clock, Calendar, User, Tag, MessageSquare } from 'lucide-react';
-import DashboardLayout from '../dashboard/DashboardLayout';
+import DashboardLayout from '../../components/dashboard/DashboardLayout';
 
 interface Comment {
   id: string;
@@ -24,12 +24,11 @@ interface Task {
   schoolName?: string;
 }
 
-const TaskDetail: React.FC = () => {
+const TaskDetail: React.FC<{ userType?: 'admin' | 'sales' | 'student' | 'school' }> = ({ userType = 'admin' }) => {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
-
-  const tasks: Task[] = [
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([
     {
       id: '1',
       title: 'Contact Delhi Public School',
@@ -81,12 +80,37 @@ const TaskDetail: React.FC = () => {
       schoolId: '3',
       schoolName: 'Ryan International School',
     },
-  ];
+  ]);
+  const [newComment, setNewComment] = useState('');
 
   const task = tasks.find((t) => t.id === taskId);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+
+    setTasks((prevTasks) =>
+      prevTasks.map((t) =>
+        t.id === taskId
+          ? {
+              ...t,
+              comments: [
+                ...t.comments,
+                {
+                  id: `c${t.comments.length + 1}`,
+                  text: newComment.trim(),
+                  author: 'Sales User', // Replace with actual user name from auth context if available
+                  timestamp: '2025-05-16 12:23 PM', // Current date and time: May 16, 2025, 12:23 PM IST
+                },
+              ],
+            }
+          : t
+      )
+    );
+    setNewComment('');
   };
 
   const formatDate = (dateStr: string) => {
@@ -123,7 +147,7 @@ const TaskDetail: React.FC = () => {
   if (!task) {
     return (
       <DashboardLayout
-        userType="admin"
+        userType={userType}
         title="Task Not Found"
         userName="Rahul Gupta"
        
@@ -132,11 +156,11 @@ const TaskDetail: React.FC = () => {
           <h1 className="text-2xl font-bold mb-6">Task Not Found</h1>
           <p className="text-gray-600">The task with ID {taskId} could not be found.</p>
           <button
-            onClick={() => navigate('/admin/tasks')}
-            className="mt-4 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md"
+            onClick={() => navigate('/admin/dashboard', { replace: false })}
+            className="mt-4 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
-            Back to Tasks
+            Back to Dashboard
           </button>
         </div>
       </DashboardLayout>
@@ -145,18 +169,18 @@ const TaskDetail: React.FC = () => {
 
   return (
     <DashboardLayout
-      userType="admin"
+      userType={userType}
       title={`Task Details - ${task.title}`}
       userName="Rahul Gupta"
-      
+     
     >
       <div className="p-6">
         <button
-          onClick={() => navigate('/admin/tasks')}
-          className="mb-6 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md"
+          onClick={() => navigate('/admin/dashboard', { replace: false })}
+          className="mb-6 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
-          Back to Tasks
+          Back to Dashboard
         </button>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
@@ -226,7 +250,7 @@ const TaskDetail: React.FC = () => {
           <div className="mt-6">
             <h2 className="text-lg font-semibold mb-4">Comments</h2>
             {task.comments.length > 0 ? (
-              <ul className="space-y-3">
+              <ul className="space-y-3 mb-4">
                 {task.comments.map((comment) => (
                   <li key={comment.id} className="p-3 bg-gray-50 rounded-md">
                     <div className="flex items-start space-x-2">
@@ -242,8 +266,52 @@ const TaskDetail: React.FC = () => {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-gray-500">No comments yet.</p>
+              <p className="text-sm text-gray-500 mb-4">No comments yet.</p>
             )}
+
+            {userType === 'sales' && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Add Comment</label>
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Add a new comment here"
+                  rows={3}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button
+                  onClick={handleAddComment}
+                  disabled={!newComment.trim()}
+                  className={`mt-2 px-4 py-2 rounded-md text-white transition-colors ${
+                    newComment.trim()
+                      ? 'bg-blue-600 hover:bg-blue-700'
+                      : 'bg-blue-300 cursor-not-allowed'
+                  }`}
+                >
+                  Submit Comment
+                </button>
+              </div>
+            )}
+            {/* Comments Section */}
+            <div className="mt-6">
+                          {/* Add Comment Form */}
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="text"
+                              value={newComment}
+                              onChange={(e) => setNewComment(e.target.value)}
+                              placeholder="Add a comment..."
+                              className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            />
+                            <button
+                              onClick={handleAddComment}
+                              className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+                              disabled={!newComment.trim()}
+                            >
+                              Add Comment
+                            </button>
+                          </div>
+                        </div>
           </div>
         </div>
       </div>
