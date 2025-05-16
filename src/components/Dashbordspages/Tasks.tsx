@@ -176,9 +176,11 @@ const Tasks: React.FC<TasksProps> = ({ userType }) => {
     setNewComments(remainingNewComments);
   };
 
-  const handleTaskClick = (schoolId?: string) => {
+  const handleTaskClick = (taskId: string, schoolId?: string) => {
     if (schoolId) {
       navigate(`/admin/school/${schoolId}`);
+    } else {
+      navigate(`/admin/task/${taskId}`);
     }
   };
 
@@ -323,10 +325,8 @@ const Tasks: React.FC<TasksProps> = ({ userType }) => {
           {filteredTasks.map((task) => (
             <div
               key={task.id}
-              onClick={() => handleTaskClick(task.schoolId)}
-              className={`border border-gray-100 rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow ${
-                task.schoolId ? 'cursor-pointer' : 'cursor-default'
-              }`}
+              onClick={() => handleTaskClick(task.id, task.schoolId)}
+              className="border border-gray-100 rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
                 <div>
@@ -337,7 +337,7 @@ const Tasks: React.FC<TasksProps> = ({ userType }) => {
                         ? 'In Progress'
                         : task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                     </span>
-                    <span className={`px-2 py-1 rounded-full text-xs ${getPriorityClass(task.status)}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs ${getPriorityClass(task.priority)}`}>
                       {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)} Priority
                     </span>
                     {task.schoolName ? (

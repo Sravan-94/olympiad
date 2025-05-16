@@ -33,6 +33,7 @@ import Schools from "./components/Dashbordspages/Schools";
 import Tasks from "./components/Dashbordspages/Tasks";
 import UpcomingExams from "./components/Dashbordspages/Upcomingexams";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import TaskDetail from "./components/Dashbordspages/TaskDetail";
 
 import SchoolDetail from './pages/SchoolDetails';
 
@@ -188,7 +189,8 @@ const App = () => (
               <Route path="/admin/dashboard" element={<SchoolDashboard />} />
               <Route path="/admin/school/:schoolId" element={<SchoolDetail />} />
               <Route path="/admin/tasks" element={<Tasks userType="admin" />} />
-              <Route path="*" element={<div>404 - Page Not Found</div>} />  
+              <Route path="*" element={<div>404 - Page Not Found</div>} />
+              <Route path="/admin/task/:taskId" element={<TaskDetail />} />  
               
               {/* Student Dashboard Pages */}
               <Route path="/student-exam-results" element={<StudentExamResultsWithLayout />} />
