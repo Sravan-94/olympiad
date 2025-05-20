@@ -84,7 +84,7 @@ const LoginForm = () => {
             Forgot password?
           </Link>
         </div>
-      
+        
         <button
           type="submit"
           className="w-full btn-primary py-2.5 px-4 text-center"

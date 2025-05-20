@@ -38,20 +38,7 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <div className="p-3 sm:p-4 md:p-6">
-      <div className="mb-4 md:mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Tests Taken</h3>
-          <p className="text-2xl font-semibold">12</p>
-        </div>
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Average Score</h3>
-          <p className="text-2xl font-semibold">87<span className="text-sm text-gray-500">%</span></p>
-        </div>
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Ranking</h3>
-          <p className="text-2xl font-semibold">#42</p>
-        </div>
-      </div>
+      
       
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
         <div className="flex border-b border-gray-200">

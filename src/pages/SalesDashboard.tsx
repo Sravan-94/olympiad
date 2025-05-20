@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Building, TrendingUp, PhoneCall, CreditCard } from "lucide-react";
-import Schools from "../components/Dashbordspages/Schools";
+import Schools from "../components/Dashbordspages//Schools";
 import Tasks from "../components/Dashbordspages/Tasks";
 import { useLocation, useNavigate } from "react-router-dom";
 

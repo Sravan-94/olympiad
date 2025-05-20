@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { School, MapPin, Phone, Mail, Plus, Trash2, PenLine, User, Building } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { School, MapPin, Phone, Mail, Plus, Trash2, PenLine, Building, User, Users } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface SchoolData {
   id: string;
@@ -17,6 +19,7 @@ interface SchoolsProps {
 }
 
 const Schools: React.FC<SchoolsProps> = ({ userType }) => {
+  const navigate = useNavigate();
   const [schools, setSchools] = useState<SchoolData[]>([
     {
       id: '1',
@@ -26,7 +29,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
       contactEmail: 'principal@dps.edu',
       contactPhone: '+91 9876543210',
       studentsCount: 2500,
-      status: 'active'
+      status: 'active',
     },
     {
       id: '2',
@@ -36,7 +39,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
       contactEmail: 'admin@ryan.edu',
       contactPhone: '+91 9876543211',
       studentsCount: 1800,
-      status: 'active'
+      status: 'active',
     },
     {
       id: '3',
@@ -46,28 +49,39 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
       contactEmail: 'principal@kv.edu',
       contactPhone: '+91 9876543212',
       studentsCount: 3200,
-      status: 'pending'
+      status: 'pending',
     },
   ]);
 
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newSchool, setNewSchool] = useState<Omit<SchoolData, 'id' | 'studentsCount'>>({ 
+  const [editingSchool, setEditingSchool] = useState<SchoolData | null>(null);
+  const [newSchool, setNewSchool] = useState<Omit<SchoolData, 'id' | 'studentsCount'>>({
     name: '',
     address: '',
     contactPerson: '',
     contactEmail: '',
     contactPhone: '',
-    status: 'pending'
+    status: 'pending',
   });
-
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setNewSchool(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (editingSchool) {
+      setEditingSchool((prev) =>
+        prev
+          ? {
+              ...prev,
+              [name]: name === 'studentsCount' ? parseInt(value) || 0 : value,
+            }
+          : null
+      );
+    } else {
+      setNewSchool((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleAddSchool = (e: React.FormEvent) => {
@@ -75,28 +89,44 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
     const school = {
       ...newSchool,
       id: Math.random().toString(36).substr(2, 9),
-      studentsCount: 0
+      studentsCount: 0,
     };
     setSchools([...schools, school]);
     setShowAddForm(false);
-    setNewSchool({ 
+    setNewSchool({
       name: '',
       address: '',
       contactPerson: '',
       contactEmail: '',
       contactPhone: '',
-      status: 'pending'
+      status: 'pending',
     });
   };
 
-  const handleDeleteSchool = (id: string) => {
-    setSchools(schools.filter(school => school.id !== id));
+  const handleEditSchool = (school: SchoolData) => {
+    setEditingSchool(school);
   };
 
-  const filteredSchools = schools.filter(school => 
-    school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    school.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    school.contactPerson.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleUpdateSchool = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSchool) return;
+    setSchools(schools.map((s) => (s.id === editingSchool.id ? editingSchool : s)));
+    setEditingSchool(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingSchool(null);
+  };
+
+  const handleDeleteSchool = (id: string) => {
+    setSchools(schools.filter((school) => school.id !== id));
+  };
+
+  const filteredSchools = schools.filter(
+    (school) =>
+      school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      school.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      school.contactPerson.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getStatusBadgeClass = (status: 'active' | 'pending' | 'inactive') => {
@@ -107,6 +137,8 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
         return 'bg-yellow-100 text-yellow-800';
       case 'inactive':
         return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -114,7 +146,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Schools Management</h1>
-        <button 
+        <button
           onClick={() => setShowAddForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-education-blue text-white rounded-md hover:bg-blue-700 transition-colors"
         >
@@ -123,10 +155,10 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
         </button>
       </div>
 
-      {showAddForm && (
+      {(showAddForm || editingSchool) && (
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Add New School</h2>
-          <form onSubmit={handleAddSchool}>
+          <h2 className="text-lg font-semibold mb-4">{editingSchool ? 'Edit School' : 'Add New School'}</h2>
+          <form onSubmit={editingSchool ? handleUpdateSchool : handleAddSchool}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">School Name</label>
@@ -137,7 +169,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   <input
                     type="text"
                     name="name"
-                    value={newSchool.name}
+                    value={editingSchool ? editingSchool.name : newSchool.name}
                     onChange={handleInputChange}
                     placeholder="Enter school name"
                     className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
@@ -154,7 +186,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   <input
                     type="text"
                     name="address"
-                    value={newSchool.address}
+                    value={editingSchool ? editingSchool.address : newSchool.address}
                     onChange={handleInputChange}
                     placeholder="Enter school address"
                     className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
@@ -171,7 +203,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   <input
                     type="text"
                     name="contactPerson"
-                    value={newSchool.contactPerson}
+                    value={editingSchool ? editingSchool.contactPerson : newSchool.contactPerson}
                     onChange={handleInputChange}
                     placeholder="Enter contact person name"
                     className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
@@ -188,7 +220,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   <input
                     type="email"
                     name="contactEmail"
-                    value={newSchool.contactEmail}
+                    value={editingSchool ? editingSchool.contactEmail : newSchool.contactEmail}
                     onChange={handleInputChange}
                     placeholder="Enter contact email"
                     className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
@@ -205,7 +237,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   <input
                     type="text"
                     name="contactPhone"
-                    value={newSchool.contactPhone}
+                    value={editingSchool ? editingSchool.contactPhone : newSchool.contactPhone}
                     onChange={handleInputChange}
                     placeholder="Enter contact phone"
                     className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
@@ -213,11 +245,31 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   />
                 </div>
               </div>
+              {editingSchool && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Number of Students</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Users className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="number"
+                      name="studentsCount"
+                      value={editingSchool.studentsCount}
+                      onChange={handleInputChange}
+                      placeholder="Enter number of students"
+                      className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
+                      required
+                      min="0"
+                    />
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select
                   name="status"
-                  value={newSchool.status}
+                  value={editingSchool ? editingSchool.status : newSchool.status}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
                   required
@@ -231,7 +283,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
             <div className="flex justify-end space-x-2">
               <button
                 type="button"
-                onClick={() => setShowAddForm(false)}
+                onClick={editingSchool ? handleCancelEdit : () => setShowAddForm(false)}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
               >
                 Cancel
@@ -240,7 +292,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                 type="submit"
                 className="px-4 py-2 bg-education-blue text-white rounded-md hover:bg-blue-700 transition-colors"
               >
-                Add School
+                {editingSchool ? 'Update School' : 'Add School'}
               </button>
             </div>
           </form>
@@ -259,8 +311,19 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
               className="w-full p-2 pl-3 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-education-blue focus:border-transparent"
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
               </svg>
             </div>
           </div>
@@ -281,7 +344,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredSchools.map(school => (
+              {filteredSchools.map((school) => (
                 <tr key={school.id} className="border-b border-gray-100">
                   <td className="px-4 py-3 text-sm">{school.name}</td>
                   <td className="px-4 py-3 text-sm">{school.address}</td>
@@ -298,13 +361,17 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   </td>
                   <td className="px-4 py-3 text-sm">
                     <div className="flex items-center space-x-2">
-                      <button className="text-education-blue hover:text-blue-700" title="Edit School">
+                      <button
+                        onClick={() => handleEditSchool(school)}
+                        className="text-education-blue hover:text-blue-700"
+                        title="Edit School"
+                      >
                         <PenLine size={16} />
                       </button>
-                      <button 
-                        className="text-red-500 hover:text-red-700" 
-                        title="Delete School"
-                        onClick={() => handleDeleteSchool(school.id)}
+                      <button
+                        onClick={() => navigate(`/school/${school.id}`)}
+                        className="text-blue-500 hover:text-blue-700"
+                        title="View Details"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -319,7 +386,7 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
         {/* Mobile view - Cards */}
         <div className="md:hidden">
           <div className="space-y-4">
-            {filteredSchools.map(school => (
+            {filteredSchools.map((school) => (
               <div key={school.id} className="border border-gray-100 rounded-lg p-4 bg-gray-50">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center space-x-2">
@@ -349,12 +416,24 @@ const Schools: React.FC<SchoolsProps> = ({ userType }) => {
                   </div>
                 </div>
                 <div className="mt-4 flex justify-end space-x-2">
-                  <button className="p-2 bg-gray-100 text-education-blue rounded-md">
+                  <button
+                    onClick={() => handleEditSchool(school)}
+                    className="p-2 bg-gray-100 text-education-blue rounded-md"
+                    title="Edit School"
+                  >
                     <PenLine size={16} />
                   </button>
-                  <button 
-                    className="p-2 bg-gray-100 text-red-500 rounded-md"
+                  <button
+                    onClick={() => navigate(`/school/${school.id}`)}
+                    className="p-2 bg-gray-100 text-blue-500 rounded-md"
+                    title="View Details"
+                  >
+                    <School size={16} />
+                  </button>
+                  <button
                     onClick={() => handleDeleteSchool(school.id)}
+                    className="p-2 bg-gray-100 text-red-500 rounded-md"
+                    title="Delete School"
                   >
                     <Trash2 size={16} />
                   </button>

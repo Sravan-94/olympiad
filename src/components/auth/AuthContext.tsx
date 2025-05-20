@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type User = {
+  userType(userType: any): unknown;
   email: string;
   role: "student" | "school" | "sales" | "admin";
 };
